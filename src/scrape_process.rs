@@ -1,4 +1,6 @@
+use core::time;
 use std::collections::HashMap;
+use std::thread;
 
 use fantoccini::Client;
 use lingua::Language::{English, French, Italian, Spanish};
@@ -36,8 +38,8 @@ impl<'a> ScrapingProcess<'a> {
             .await
             .expect("error direct crawling");
         let mut valuable_content = ScrapingProcess::get_valuable_content(body.as_str());
-        // // let mut body = "".to_string();
-        // // let mut valuable_content = "".to_string();
+        let mut body = "".to_string();
+        let mut valuable_content = "".to_string();
 
         if valuable_content.is_empty() {
             println!("Not working with direct call. Crawling...");
@@ -62,6 +64,8 @@ impl<'a> ScrapingProcess<'a> {
         // c.set_ua("Googlebot").await?;
         self.client.goto(url.as_str()).await.expect("Goto failed");
         let s = self.client.source().await.expect("Getting source failed");
+
+        thread::sleep(time::Duration::from_millis(10000));
 
         Ok(s)
     }
