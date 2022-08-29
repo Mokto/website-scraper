@@ -13,3 +13,6 @@ class Scraper:
 
     async def start_browser(self) -> str:
         ...
+
+    async def close_browser(self) -> str:
+        ...
